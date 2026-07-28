@@ -67,9 +67,7 @@
     <section class="px-4 mb-6">
         <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
             
-            <!-- المحددات المنسدلة جنباً إلى جنب -->
             <div class="grid grid-cols-2 gap-2 mb-3">
-                
                 <!-- اختر المدينة -->
                 <div class="relative bg-gray-50 rounded-xl p-2 border border-gray-200 flex items-center gap-2">
                     <div class="text-gray-400 text-lg px-1">
@@ -97,7 +95,6 @@
                     </div>
                     <i class="fas fa-chevron-down text-gray-400 text-xs pl-1"></i>
                 </div>
-
             </div>
 
             <!-- زر البحث -->
@@ -107,6 +104,77 @@
             </button>
 
         </div>
+    </section>
+
+    <!-- 4. قسم نخبة الحرفيين (Featured Artisans) -->
+    <section class="px-4">
+        
+        <!-- عنوان القسم -->
+        <div class="flex items-center justify-center gap-2 mb-4">
+            <span class="text-xl">🏅</span>
+            <h2 class="text-lg font-bold text-gray-900">نخبة الحرفيين في ليبيا</h2>
+            <span class="text-xl">🏅</span>
+        </div>
+
+        <!-- حاوية القائمة (سيتم ملؤها برمجياً من Supabase لاحقاً) -->
+        <div id="artisansList" class="space-y-3">
+            
+            <!-- بطاقة تجريبية (مكان العرض) -->
+            <div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-100 flex items-center justify-between">
+                
+                <!-- الأزرار التفاعلية (يمين باللغة العربية) -->
+                <div class="flex items-center gap-1.5">
+                    <!-- اتصال -->
+                    <a href="tel:0910000000" class="flex flex-col items-center justify-center w-11 h-11 bg-blue-50 text-blue-500 rounded-xl">
+                        <i class="fas fa-phone text-xs"></i>
+                        <span class="text-[9px] mt-0.5 font-medium">اتصال</span>
+                    </a>
+                    <!-- واتساب -->
+                    <a href="https://wa.me/218910000000" class="flex flex-col items-center justify-center w-11 h-11 bg-emerald-50 text-emerald-500 rounded-xl">
+                        <i class="fab fa-whatsapp text-sm"></i>
+                        <span class="text-[9px] mt-0.5 font-medium">واتساب</span>
+                    </a>
+                    <!-- مفضلة -->
+                    <button class="flex flex-col items-center justify-center w-11 h-11 bg-gray-50 text-gray-400 rounded-xl">
+                        <i class="far fa-heart text-xs"></i>
+                        <span class="text-[9px] mt-0.5 font-medium">مفضلة</span>
+                    </button>
+                    <!-- تقييم -->
+                    <button class="flex flex-col items-center justify-center w-11 h-11 bg-gray-50 text-gray-400 rounded-xl">
+                        <i class="far fa-star text-xs"></i>
+                        <span class="text-[9px] mt-0.5 font-medium">تقييم</span>
+                    </button>
+                </div>
+
+                <!-- تفاصيل الحرفي والأيقونة (يسار) -->
+                <div class="flex items-center gap-3">
+                    <div class="text-right">
+                        <div class="flex items-center justify-end gap-1">
+                            <span class="text-xs text-orange-500">✔</span>
+                            <h3 class="font-bold text-sm text-gray-800">أحمد السنوسي</h3>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-0.5">سباك صحي</p>
+                        <div class="flex items-center justify-end gap-2 mt-1 text-[11px] text-gray-400">
+                            <span class="flex items-center gap-0.5 text-amber-500 font-bold">
+                                4.9 <i class="fas fa-star text-[9px]"></i>
+                            </span>
+                            <span>•</span>
+                            <span class="flex items-center gap-0.5">
+                                <i class="fas fa-location-dot text-[9px]"></i> طرابلس
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- أيقونة المهنة -->
+                    <div class="w-12 h-12 bg-orange-50 text-primary rounded-xl flex items-center justify-center text-xl">
+                        <i class="fas fa-faucet text-primary"></i>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
     </section>
 
 </body>
