@@ -9,6 +9,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <!-- الخط العربي -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
@@ -116,66 +119,131 @@
             <span class="text-xl">🏅</span>
         </div>
 
-        <!-- حاوية القائمة (سيتم ملؤها برمجياً من Supabase لاحقاً) -->
+        <!-- حاوية القائمة -->
         <div id="artisansList" class="space-y-3">
-            
-            <!-- بطاقة تجريبية (مكان العرض) -->
-            <div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-100 flex items-center justify-between">
-                
-                <!-- الأزرار التفاعلية (يمين باللغة العربية) -->
-                <div class="flex items-center gap-1.5">
-                    <!-- اتصال -->
-                    <a href="tel:0910000000" class="flex flex-col items-center justify-center w-11 h-11 bg-blue-50 text-blue-500 rounded-xl">
-                        <i class="fas fa-phone text-xs"></i>
-                        <span class="text-[9px] mt-0.5 font-medium">اتصال</span>
-                    </a>
-                    <!-- واتساب -->
-                    <a href="https://wa.me/218910000000" class="flex flex-col items-center justify-center w-11 h-11 bg-emerald-50 text-emerald-500 rounded-xl">
-                        <i class="fab fa-whatsapp text-sm"></i>
-                        <span class="text-[9px] mt-0.5 font-medium">واتساب</span>
-                    </a>
-                    <!-- مفضلة -->
-                    <button class="flex flex-col items-center justify-center w-11 h-11 bg-gray-50 text-gray-400 rounded-xl">
-                        <i class="far fa-heart text-xs"></i>
-                        <span class="text-[9px] mt-0.5 font-medium">مفضلة</span>
-                    </button>
-                    <!-- تقييم -->
-                    <button class="flex flex-col items-center justify-center w-11 h-11 bg-gray-50 text-gray-400 rounded-xl">
-                        <i class="far fa-star text-xs"></i>
-                        <span class="text-[9px] mt-0.5 font-medium">تقييم</span>
-                    </button>
-                </div>
-
-                <!-- تفاصيل الحرفي والأيقونة (يسار) -->
-                <div class="flex items-center gap-3">
-                    <div class="text-right">
-                        <div class="flex items-center justify-end gap-1">
-                            <span class="text-xs text-orange-500">✔</span>
-                            <h3 class="font-bold text-sm text-gray-800">أحمد السنوسي</h3>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-0.5">سباك صحي</p>
-                        <div class="flex items-center justify-end gap-2 mt-1 text-[11px] text-gray-400">
-                            <span class="flex items-center gap-0.5 text-amber-500 font-bold">
-                                4.9 <i class="fas fa-star text-[9px]"></i>
-                            </span>
-                            <span>•</span>
-                            <span class="flex items-center gap-0.5">
-                                <i class="fas fa-location-dot text-[9px]"></i> طرابلس
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- أيقونة المهنة -->
-                    <div class="w-12 h-12 bg-orange-50 text-primary rounded-xl flex items-center justify-center text-xl">
-                        <i class="fas fa-faucet text-primary"></i>
-                    </div>
-                </div>
-
-            </div>
-
+            <div class="text-center py-6 text-gray-400 text-xs">جاري تحميل الحرفيين...</div>
         </div>
 
     </section>
+
+    <!-- كود الربط والتشغيل (JavaScript) -->
+    <script>
+        const SUPABASE_URL = 'https://YOUR_SUPABASE_URL.supabase.co';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+        
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // جلب البيانات عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadCities();
+            await loadProfessions();
+            await fetchArtisans();
+        });
+
+        // جلب المدن
+        async function loadCities() {
+            const { data } = await _supabase.from('cities').select('*');
+            const select = document.getElementById('citySelect');
+            if (data) {
+                data.forEach(c => {
+                    select.innerHTML += `<option value="${c.id}">${c.name_ar}</option>`;
+                });
+            }
+        }
+
+        // جلب المهن
+        async function loadProfessions() {
+            const { data } = await _supabase.from('professions').select('*');
+            const select = document.getElementById('professionSelect');
+            if (data) {
+                data.forEach(p => {
+                    select.innerHTML += `<option value="${p.id}">${p.name_ar}</option>`;
+                });
+            }
+        }
+
+        // جلب الحرفيين مع الفلترة
+        async function fetchArtisans(cityId = '', professionId = '') {
+            const container = document.getElementById('artisansList');
+            container.innerHTML = '<div class="text-center py-6 text-gray-400 text-xs">جاري البحث...</div>';
+
+            let query = _supabase.from('artisans').select(`
+                *,
+                cities (name_ar),
+                professions (name_ar, icon_name)
+            `);
+
+            if (cityId) query = query.eq('city_id', cityId);
+            if (professionId) query = query.eq('profession_id', professionId);
+
+            const { data, error } = await query;
+
+            if (error || !data || data.length === 0) {
+                container.innerHTML = '<div class="text-center py-6 text-gray-400 text-xs">لا يوجد حرفيين مطابقين حالياً</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+            data.forEach(a => {
+                const icon = a.professions?.icon_name || 'fa-wrench';
+                const city = a.cities?.name_ar || 'غير محدد';
+                const profession = a.professions?.name_ar || 'حرفي';
+                
+                container.innerHTML += `
+                    <div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-100 flex items-center justify-between">
+                        <div class="flex items-center gap-1.5">
+                            <a href="tel:${a.phone}" class="flex flex-col items-center justify-center w-11 h-11 bg-blue-50 text-blue-500 rounded-xl">
+                                <i class="fas fa-phone text-xs"></i>
+                                <span class="text-[9px] mt-0.5 font-medium">اتصال</span>
+                            </a>
+                            <a href="https://wa.me/${a.whatsapp || a.phone}" class="flex flex-col items-center justify-center w-11 h-11 bg-emerald-50 text-emerald-500 rounded-xl">
+                                <i class="fab fa-whatsapp text-sm"></i>
+                                <span class="text-[9px] mt-0.5 font-medium">واتساب</span>
+                            </a>
+                            <button class="flex flex-col items-center justify-center w-11 h-11 bg-gray-50 text-gray-400 rounded-xl">
+                                <i class="far fa-heart text-xs"></i>
+                                <span class="text-[9px] mt-0.5 font-medium">مفضلة</span>
+                            </button>
+                            <button class="flex flex-col items-center justify-center w-11 h-11 bg-gray-50 text-gray-400 rounded-xl">
+                                <i class="far fa-star text-xs"></i>
+                                <span class="text-[9px] mt-0.5 font-medium">تقييم</span>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <div class="text-right">
+                                <div class="flex items-center justify-end gap-1">
+                                    <span class="text-xs text-orange-500">✔</span>
+                                    <h3 class="font-bold text-sm text-gray-800">${a.name}</h3>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-0.5">${profession}</p>
+                                <div class="flex items-center justify-end gap-2 mt-1 text-[11px] text-gray-400">
+                                    <span class="flex items-center gap-0.5 text-amber-500 font-bold">
+                                        ${a.rating || '5.0'} <i class="fas fa-star text-[9px]"></i>
+                                    </span>
+                                    <span>•</span>
+                                    <span class="flex items-center gap-0.5">
+                                        <i class="fas fa-location-dot text-[9px]"></i> ${city}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="w-12 h-12 bg-orange-50 text-primary rounded-xl flex items-center justify-center text-xl">
+                                <i class="fas ${icon} text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // زر البحث
+        document.getElementById('searchBtn').addEventListener('click', () => {
+            const cityId = document.getElementById('citySelect').value;
+            const professionId = document.getElementById('professionSelect').value;
+            fetchArtisans(cityId, professionId);
+        });
+    </script>
 
 </body>
 </html>
