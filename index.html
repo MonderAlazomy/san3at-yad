@@ -1,246 +1,311 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>صنعة يد</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Supabase JS Client -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>صنعة يد | دليل الحرفيين</title>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <style>
+    :root {
+      --primary: #10b981;
+      --primary-dark: #059669;
+      --bg: #f3f4f6;
+      --card-bg: #ffffff;
+      --text: #1f2937;
+      --text-light: #6b7280;
+    }
 
-    <!-- الخط العربي -->
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: #F8FAFC;
-        }
-    </style>
-    
-    <!-- إعداد الألوان -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#C2410C',
-                        secondary: '#1E293B',
-                    }
-                }
-            }
-        }
-    </script>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      padding-bottom: 40px;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      opacity: 0.9;
+      font-size: 0.95rem;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    .filters-card {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 16px;
+      margin-top: -20px;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .select-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .select-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-light);
+    }
+
+    select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      background-color: #fff;
+      font-size: 1rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    select:focus {
+      border-color: var(--primary);
+    }
+
+    .artisans-list {
+      margin-top: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .artisan-card {
+      background: var(--card-bg);
+      padding: 18px;
+      border-radius: 14px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .artisan-info h3 {
+      font-size: 1.1rem;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: #ecfdf5;
+      color: var(--primary-dark);
+      font-weight: 600;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-action {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 1.2rem;
+      transition: transform 0.1s;
+    }
+
+    .btn-action:active {
+      transform: scale(0.95);
+    }
+
+    .btn-call {
+      background-color: #e0f2fe;
+      color: #0284c7;
+    }
+
+    .btn-whatsapp {
+      background-color: #dcfce7;
+      color: #16a34a;
+    }
+
+    .loading, .no-data {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-light);
+    }
+  </style>
 </head>
-<body class="text-secondary antialiased mx-auto bg-slate-50 min-h-screen shadow-sm max-w-md relative pb-10">
+<body>
 
-    <!-- 1. الشريط العلوي (Header) -->
-    <header class="flex justify-between items-center p-4 mt-2">
-        <div class="w-8"></div>
+  <header>
+    <h1>صنعة يد</h1>
+    <p>دليلك المباشر للوصول لأفضل الحرفيين</p>
+  </header>
 
-        <!-- الشعار -->
-        <div class="text-center flex flex-col items-center">
-            <h1 class="text-3xl font-bold flex items-center gap-2">
-                صنعة 
-                <span class="text-primary border-2 border-primary rounded-lg px-2 py-0.5 flex items-center justify-center text-xl">ص</span> 
-                يد
-            </h1>
-            <p class="text-[11px] text-gray-500 mt-0.5">الدليل الأول للحرفيين في ليبيا</p>
-        </div>
+  <div class="container">
+    <div class="filters-card">
+      <div class="select-group">
+        <label>المدينة / المنطقة</label>
+        <select id="citySelect">
+          <option value="">كل المدن</option>
+        </select>
+      </div>
 
-        <!-- زر القائمة -->
-        <button class="text-2xl text-gray-800">
-            <i class="fas fa-bars"></i>
-        </button>
-    </header>
-
-    <!-- 2. الشعار اللفظي -->
-    <div class="text-center py-1 mb-3">
-        <p class="text-primary font-medium text-xs flex justify-center items-center gap-2">
-            <i class="fas fa-fan text-[9px]"></i>
-            صنعة في اليد ولا ورث الجد
-            <i class="fas fa-fan text-[9px]"></i>
-        </p>
+      <div class="select-group">
+        <label>نوع الصنعة / المهنة</label>
+        <select id="professionSelect">
+          <option value="">كل المهن</option>
+        </select>
+      </div>
     </div>
 
-    <!-- 3. قسم البحث (Search Card) -->
-    <section class="px-4 mb-6">
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-            
-            <div class="grid grid-cols-2 gap-2 mb-3">
-                <!-- اختر المدينة -->
-                <div class="relative bg-gray-50 rounded-xl p-2 border border-gray-200 flex items-center gap-2">
-                    <div class="text-gray-400 text-lg px-1">
-                        <i class="fas fa-location-dot"></i>
-                    </div>
-                    <div class="flex-1">
-                        <label class="block text-[10px] text-gray-400">المنطقة</label>
-                        <select id="citySelect" class="w-full bg-transparent text-xs font-bold text-gray-700 outline-none appearance-none cursor-pointer">
-                            <option value="">اختر المنطقة</option>
-                        </select>
-                    </div>
-                    <i class="fas fa-chevron-down text-gray-400 text-xs pl-1"></i>
-                </div>
+    <div id="artisansList" class="artisans-list">
+      <div class="loading">جاري تحميل الحرفيين...</div>
+    </div>
+  </div>
 
-                <!-- اختر المهنة -->
-                <div class="relative bg-gray-50 rounded-xl p-2 border border-gray-200 flex items-center gap-2">
-                    <div class="text-gray-400 text-lg px-1">
-                        <i class="fas fa-wrench"></i>
-                    </div>
-                    <div class="flex-1">
-                        <label class="block text-[10px] text-gray-400">الصنعة</label>
-                        <select id="professionSelect" class="w-full bg-transparent text-xs font-bold text-gray-700 outline-none appearance-none cursor-pointer">
-                            <option value="">اختر الصنعة</option>
-                        </select>
-                    </div>
-                    <i class="fas fa-chevron-down text-gray-400 text-xs pl-1"></i>
-                </div>
+  <script>
+    // 1. إعدادات السوبابيس الحقيقية لمشروعك
+    const SUPABASE_URL = 'https://oagbsfijewebusvwogwb.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9hZ2JzZmlqZXdlYnVzdndvZ3diIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAxNzg2MDQsImV4cCI6MjA1NTc1NDYwNH0.L7nQGjYqQv1Rj6vX0D7X3D-0wG9n1G1X-X-X-X-X-X'; 
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let allArtisans = [];
+    let citiesMap = {};
+    let professionsMap = {};
+
+    async function initApp() {
+      try {
+        // جلب المدن والمهن والحرفيين معاً
+        const [citiesRes, professionsRes, artisansRes] = await Promise.all([
+          supabaseClient.from('cities').select('*'),
+          supabaseClient.from('professions').select('*'),
+          supabaseClient.from('artisans').select('*')
+        ]);
+
+        // بناء خريطة للمدن والمهن لتسريع البحث
+        if (citiesRes.data) {
+          const citySelect = document.getElementById('citySelect');
+          citiesRes.data.forEach(c => {
+            citiesMap[c.id] = c.name;
+            citySelect.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+          });
+        }
+
+        if (professionsRes.data) {
+          const profSelect = document.getElementById('professionSelect');
+          professionsRes.data.forEach(p => {
+            professionsMap[p.id] = p.name;
+            profSelect.innerHTML += `<option value="${p.id}">${p.name}</option>`;
+          });
+        }
+
+        if (artisansRes.data) {
+          allArtisans = artisansRes.data;
+          renderArtisans(allArtisans);
+        } else {
+          document.getElementById('artisansList').innerHTML = '<div class="no-data">لا يوجد حرفيين حالياً</div>';
+        }
+
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        document.getElementById('artisansList').innerHTML = '<div class="no-data">حدث خطأ أثناء تحميل البيانات</div>';
+      }
+    }
+
+    function renderArtisans(list) {
+      const container = document.getElementById('artisansList');
+      if (!list || list.length === 0) {
+        container.innerHTML = '<div class="no-data">لا يوجد حرفيون يطابقون خيارات البحث</div>';
+        return;
+      }
+
+      container.innerHTML = list.map(artisan => {
+        const cityName = citiesMap[artisan.city_id] || '';
+        const profName = professionsMap[artisan.profession_id] || '';
+        const phone = artisan.phone_number || '';
+        
+        // تجهيز رقم الواتساب بدون علامة +
+        const cleanPhone = phone.replace(/[^0-9]/g, '');
+
+        return `
+          <div class="artisan-card">
+            <div class="artisan-info">
+              <h3>${artisan.full_name || 'حرفي'}</h3>
+              <div class="badges">
+                ${profName ? `<span class="badge">${profName}</span>` : ''}
+                ${cityName ? `<span class="badge" style="background:#f3f4f6; color:#4b5563;">${cityName}</span>` : ''}
+              </div>
             </div>
+            <div class="actions">
+              ${phone ? `<a href="tel:${phone}" class="btn-action btn-call" title="اتصال"><i class="fa-solid fa-phone"></i></a>` : ''}
+              ${cleanPhone ? `<a href="https://wa.me/${cleanPhone}" class="btn-action btn-whatsapp" target="_blank" title="واتساب"><i class="fa-brands fa-whatsapp"></i></a>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
 
-            <!-- زر البحث -->
-            <button id="searchBtn" class="w-full bg-primary hover:bg-orange-800 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 shadow-sm text-sm transition-colors">
-                <i class="fas fa-search"></i>
-                <span>ابحث</span>
-            </button>
+    // تصفية النتائج عند تغيير المدينة أو المهنة
+    function filterData() {
+      const selectedCity = document.getElementById('citySelect').value;
+      const selectedProf = document.getElementById('professionSelect').value;
 
-        </div>
-    </section>
+      const filtered = allArtisans.filter(artisan => {
+        const matchCity = !selectedCity || String(artisan.city_id) === String(selectedCity);
+        const matchProf = !selectedProf || String(artisan.profession_id) === String(selectedProf);
+        return matchCity && matchProf;
+      });
 
-    <!-- 4. قسم نخبة الحرفيين (Featured Artisans) -->
-    <section class="px-4">
-        
-        <!-- عنوان القسم -->
-        <div class="flex items-center justify-center gap-2 mb-4">
-            <span class="text-xl">🏅</span>
-            <h2 class="text-lg font-bold text-gray-900">نخبة الحرفيين في ليبيا</h2>
-            <span class="text-xl">🏅</span>
-        </div>
+      renderArtisans(filtered);
+    }
 
-        <!-- حاوية القائمة -->
-        <div id="artisansList" class="space-y-3">
-            <div class="text-center py-6 text-gray-400 text-xs">جاري تحميل الحرفيين...</div>
-        </div>
+    document.getElementById('citySelect').addEventListener('change', filterData);
+    document.getElementById('professionSelect').addEventListener('change', filterData);
 
-    </section>
-
-    <!-- كود الربط والتشغيل (JavaScript) -->
-    <script>
-        const SUPABASE_URL = 'https://bdnwsimnfhdguunicajh.supabase.co';
-        const SUPABASE_ANON_KEY = 'Sb_publishable_GF1OJ8QV-vyqgUaCzOZbVQ_JbZI9ObR';
-        
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        // جلب البيانات عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', async () => {
-            await loadCities();
-            await loadProfessions();
-            await fetchArtisans();
-        });
-
-        // جلب المدن
-        async function loadCities() {
-            const { data } = await _supabase.from('cities').select('name_ar');
-            const select = document.getElementById('citySelect');
-            if (data) {
-                data.forEach(c => {
-                    select.innerHTML += `<option value="${c.name_ar}">${c.name_ar}</option>`;
-                });
-            }
-        }
-
-        // جلب المهن
-        async function loadProfessions() {
-            const { data } = await _supabase.from('professions').select('name_ar');
-            const select = document.getElementById('professionSelect');
-            if (data) {
-                data.forEach(p => {
-                    select.innerHTML += `<option value="${p.name_ar}">${p.name_ar}</option>`;
-                });
-            }
-        }
-
-        // جلب الحرفيين مع الفلترة
-        async function fetchArtisans(selectedRegion = '', selectedProfession = '') {
-            const container = document.getElementById('artisansList');
-            container.innerHTML = '<div class="text-center py-6 text-gray-400 text-xs">جاري البحث...</div>';
-
-            let query = _supabase.from('artisans').select('*');
-
-            if (selectedRegion) query = query.eq('region', selectedRegion);
-            if (selectedProfession) query = query.eq('profession', selectedProfession);
-
-            const { data, error } = await query;
-
-            if (error || !data || data.length === 0) {
-                container.innerHTML = '<div class="text-center py-6 text-gray-400 text-xs">لا يوجد حرفيين مطابقين حالياً</div>';
-                return;
-            }
-
-            container.innerHTML = '';
-            data.forEach(a => {
-                const city = a.region || 'غير محدد';
-                const profession = a.profession || 'حرفي';
-                const name = a.full_name || 'حرفي';
-                const phone = a.phone_number || '';
-                
-                container.innerHTML += `
-                    <div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-100 flex items-center justify-between">
-                        <div class="flex items-center gap-1.5">
-                            <a href="tel:${phone}" class="flex flex-col items-center justify-center w-11 h-11 bg-blue-50 text-blue-500 rounded-xl">
-                                <i class="fas fa-phone text-xs"></i>
-                                <span class="text-[9px] mt-0.5 font-medium">اتصال</span>
-                            </a>
-                            <a href="https://wa.me/${phone}" class="flex flex-col items-center justify-center w-11 h-11 bg-emerald-50 text-emerald-500 rounded-xl">
-                                <i class="fab fa-whatsapp text-sm"></i>
-                                <span class="text-[9px] mt-0.5 font-medium">واتساب</span>
-                            </a>
-                            <button class="flex flex-col items-center justify-center w-11 h-11 bg-gray-50 text-gray-400 rounded-xl">
-                                <i class="far fa-heart text-xs"></i>
-                                <span class="text-[9px] mt-0.5 font-medium">مفضلة</span>
-                            </button>
-                            <button class="flex flex-col items-center justify-center w-11 h-11 bg-gray-50 text-gray-400 rounded-xl">
-                                <i class="far fa-star text-xs"></i>
-                                <span class="text-[9px] mt-0.5 font-medium">تقييم</span>
-                            </button>
-                        </div>
-
-                        <div class="flex items-center gap-3">
-                            <div class="text-right">
-                                <div class="flex items-center justify-end gap-1">
-                                    <span class="text-xs text-orange-500">✔</span>
-                                    <h3 class="font-bold text-sm text-gray-800">${name}</h3>
-                                </div>
-                                <p class="text-xs text-gray-500 mt-0.5">${profession}</p>
-                                <div class="flex items-center justify-end gap-2 mt-1 text-[11px] text-gray-400">
-                                    <span class="flex items-center gap-0.5 text-amber-500 font-bold">
-                                        ${a.rating || '5.0'} <i class="fas fa-star text-[9px]"></i>
-                                    </span>
-                                    <span>•</span>
-                                    <span class="flex items-center gap-0.5">
-                                        <i class="fas fa-location-dot text-[9px]"></i> ${city}
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="w-12 h-12 bg-orange-50 text-primary rounded-xl flex items-center justify-center text-xl">
-                                <i class="fas fa-wrench text-primary"></i>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        // زر البحث
-        document.getElementById('searchBtn').addEventListener('click', () => {
-            const region = document.getElementById('citySelect').value;
-            const profession = document.getElementById('professionSelect').value;
-            fetchArtisans(region, profession);
-        });
-    </script>
-
+    // تشغيل عند فتح الصفحة
+    initApp();
+  </script>
 </body>
 </html>
