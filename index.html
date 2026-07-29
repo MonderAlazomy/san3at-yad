@@ -142,39 +142,35 @@
 
         // جلب المدن
         async function loadCities() {
-            const { data } = await _supabase.from('cities').select('*');
+            const { data } = await _supabase.from('cities').select('name_ar');
             const select = document.getElementById('citySelect');
             if (data) {
                 data.forEach(c => {
-                    select.innerHTML += `<option value="${c.id}">${c.name_ar}</option>`;
+                    select.innerHTML += `<option value="${c.name_ar}">${c.name_ar}</option>`;
                 });
             }
         }
 
         // جلب المهن
         async function loadProfessions() {
-            const { data } = await _supabase.from('professions').select('*');
+            const { data } = await _supabase.from('professions').select('name_ar');
             const select = document.getElementById('professionSelect');
             if (data) {
                 data.forEach(p => {
-                    select.innerHTML += `<option value="${p.id}">${p.name_ar}</option>`;
+                    select.innerHTML += `<option value="${p.name_ar}">${p.name_ar}</option>`;
                 });
             }
         }
 
         // جلب الحرفيين مع الفلترة
-        async function fetchArtisans(cityId = '', professionId = '') {
+        async function fetchArtisans(selectedRegion = '', selectedProfession = '') {
             const container = document.getElementById('artisansList');
             container.innerHTML = '<div class="text-center py-6 text-gray-400 text-xs">جاري البحث...</div>';
 
-            let query = _supabase.from('artisans').select(`
-                *,
-                cities (name_ar),
-                professions (name_ar, icon_name)
-            `);
+            let query = _supabase.from('artisans').select('*');
 
-            if (cityId) query = query.eq('city_id', cityId);
-            if (professionId) query = query.eq('profession_id', professionId);
+            if (selectedRegion) query = query.eq('region', selectedRegion);
+            if (selectedProfession) query = query.eq('profession', selectedProfession);
 
             const { data, error } = await query;
 
@@ -185,18 +181,19 @@
 
             container.innerHTML = '';
             data.forEach(a => {
-                const icon = a.professions?.icon_name || 'fa-wrench';
-                const city = a.cities?.name_ar || 'غير محدد';
-                const profession = a.professions?.name_ar || 'حرفي';
+                const city = a.region || 'غير محدد';
+                const profession = a.profession || 'حرفي';
+                const name = a.full_name || 'حرفي';
+                const phone = a.phone_number || '';
                 
                 container.innerHTML += `
                     <div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-100 flex items-center justify-between">
                         <div class="flex items-center gap-1.5">
-                            <a href="tel:${a.phone}" class="flex flex-col items-center justify-center w-11 h-11 bg-blue-50 text-blue-500 rounded-xl">
+                            <a href="tel:${phone}" class="flex flex-col items-center justify-center w-11 h-11 bg-blue-50 text-blue-500 rounded-xl">
                                 <i class="fas fa-phone text-xs"></i>
                                 <span class="text-[9px] mt-0.5 font-medium">اتصال</span>
                             </a>
-                            <a href="https://wa.me/${a.whatsapp || a.phone}" class="flex flex-col items-center justify-center w-11 h-11 bg-emerald-50 text-emerald-500 rounded-xl">
+                            <a href="https://wa.me/${phone}" class="flex flex-col items-center justify-center w-11 h-11 bg-emerald-50 text-emerald-500 rounded-xl">
                                 <i class="fab fa-whatsapp text-sm"></i>
                                 <span class="text-[9px] mt-0.5 font-medium">واتساب</span>
                             </a>
@@ -214,7 +211,7 @@
                             <div class="text-right">
                                 <div class="flex items-center justify-end gap-1">
                                     <span class="text-xs text-orange-500">✔</span>
-                                    <h3 class="font-bold text-sm text-gray-800">${a.name}</h3>
+                                    <h3 class="font-bold text-sm text-gray-800">${name}</h3>
                                 </div>
                                 <p class="text-xs text-gray-500 mt-0.5">${profession}</p>
                                 <div class="flex items-center justify-end gap-2 mt-1 text-[11px] text-gray-400">
@@ -229,7 +226,7 @@
                             </div>
 
                             <div class="w-12 h-12 bg-orange-50 text-primary rounded-xl flex items-center justify-center text-xl">
-                                <i class="fas ${icon} text-primary"></i>
+                                <i class="fas fa-wrench text-primary"></i>
                             </div>
                         </div>
                     </div>
@@ -239,9 +236,9 @@
 
         // زر البحث
         document.getElementById('searchBtn').addEventListener('click', () => {
-            const cityId = document.getElementById('citySelect').value;
-            const professionId = document.getElementById('professionSelect').value;
-            fetchArtisans(cityId, professionId);
+            const region = document.getElementById('citySelect').value;
+            const profession = document.getElementById('professionSelect').value;
+            fetchArtisans(region, profession);
         });
     </script>
 
