@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>صنعة يد | دليل الحرفيين</title>
+  <title>صنعة يد | دليلك الأول للحرفيين في ليبيا</title>
   
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -13,45 +13,96 @@
   
   <style>
     :root {
-      --primary: #10b981;
-      --primary-dark: #059669;
-      --bg: #f3f4f6;
+      --burnt-orange: #d94b10;
+      --burnt-orange-hover: #b83d0a;
+      --bg-color: #f8f9fa;
       --card-bg: #ffffff;
-      --text: #1f2937;
-      --text-light: #6b7280;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --accent-light: #fff5f0;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
 
     body {
-      background-color: var(--bg);
-      color: var(--text);
+      background-color: var(--bg-color);
+      color: var(--text-main);
       padding-bottom: 40px;
     }
 
-    header {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    /* Top Bar */
+    .top-header {
+      background: var(--card-bg);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      background: var(--burnt-orange);
       color: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.4rem;
+      box-shadow: 0 4px 10px rgba(217, 75, 16, 0.25);
+    }
+
+    .brand-text h1 {
+      font-size: 1.3rem;
+      color: var(--text-main);
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .brand-text p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .btn-login {
+      border: 1px solid var(--border-color);
+      background: white;
+      color: var(--burnt-orange);
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Hero Slogan */
+    .slogan-container {
       text-align: center;
-      padding: 30px 20px;
-      border-bottom-left-radius: 20px;
-      border-bottom-right-radius: 20px;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-    }
-
-    header h1 {
-      font-size: 1.8rem;
-      margin-bottom: 8px;
-    }
-
-    header p {
-      opacity: 0.9;
-      font-size: 0.95rem;
+      margin: 20px 0 15px;
+      color: var(--burnt-orange);
+      font-weight: 700;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     .container {
@@ -60,154 +111,332 @@
       padding: 0 15px;
     }
 
-    .filters-card {
+    /* Filter Card */
+    .filter-card {
       background: var(--card-bg);
-      padding: 20px;
-      border-radius: 16px;
-      margin-top: -20px;
-      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+      padding: 18px;
+      border-radius: 18px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+      border: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 12px;
     }
 
-    .select-group {
+    .filter-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .select-box {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 8px 12px;
       display: flex;
-      flex-direction: column;
-      gap: 6px;
+      align-items: center;
+      gap: 8px;
     }
 
-    .select-group label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-light);
+    .select-box i {
+      color: var(--burnt-orange);
+      font-size: 1.1rem;
+    }
+
+    .select-wrapper {
+      width: 100%;
+    }
+
+    .select-wrapper label {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
     }
 
     select {
       width: 100%;
-      padding: 12px 15px;
-      border: 1.5px solid #e5e7eb;
-      border-radius: 10px;
-      background-color: #fff;
-      font-size: 1rem;
-      color: var(--text);
+      border: none;
+      background: transparent;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-main);
       outline: none;
-      transition: border-color 0.2s;
+      cursor: pointer;
     }
 
-    select:focus {
-      border-color: var(--primary);
+    .btn-search {
+      background: var(--burnt-orange);
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(217, 75, 16, 0.2);
     }
 
+    /* Section Title */
+    .section-title {
+      text-align: center;
+      margin: 25px 0 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .section-title h2 {
+      font-size: 1.15rem;
+      color: var(--text-main);
+      font-weight: 800;
+    }
+
+    .section-title span {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* Artisan List & Cards */
     .artisans-list {
-      margin-top: 25px;
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 12px;
     }
 
     .artisan-card {
       background: var(--card-bg);
-      padding: 18px;
-      border-radius: 14px;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
+      border-radius: 18px;
+      padding: 16px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .artisan-header {
       display: flex;
       justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .artisan-main {
+      display: flex;
+      gap: 12px;
       align-items: center;
     }
 
-    .artisan-info h3 {
-      font-size: 1.1rem;
-      margin-bottom: 6px;
-      color: var(--text);
-    }
-
-    .badges {
+    .artisan-avatar-icon {
+      width: 55px;
+      height: 55px;
+      background: var(--accent-light);
+      border-radius: 14px;
       display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      color: var(--burnt-orange);
+      font-size: 1.8rem;
     }
 
-    .badge {
-      font-size: 0.75rem;
-      padding: 4px 10px;
-      border-radius: 20px;
-      background: #ecfdf5;
-      color: var(--primary-dark);
+    .artisan-info h3 {
+      font-size: 1rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-main);
+    }
+
+    .artisan-info h3 i.verified {
+      color: var(--burnt-orange);
+      font-size: 0.9rem;
+    }
+
+    .artisan-info p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .artisan-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+      font-size: 0.8rem;
+    }
+
+    .rating {
+      color: #f59e0b;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .location {
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    /* Actions Bar */
+    .artisan-actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      border-top: 1px dashed var(--border-color);
+      padding-top: 12px;
+    }
+
+    .action-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.7rem;
       font-weight: 600;
     }
 
-    .actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    .btn-action {
-      width: 42px;
-      height: 42px;
+    .action-btn {
+      width: 38px;
+      height: 38px;
       border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      text-decoration: none;
-      font-size: 1.2rem;
-      transition: transform 0.1s;
+      font-size: 1rem;
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      transition: all 0.2s;
     }
 
-    .btn-action:active {
-      transform: scale(0.95);
-    }
-
-    .btn-call {
-      background-color: #e0f2fe;
+    .action-item.call .action-btn {
       color: #0284c7;
+      background: #f0f9ff;
     }
 
-    .btn-whatsapp {
-      background-color: #dcfce7;
+    .action-item.whatsapp .action-btn {
       color: #16a34a;
+      background: #f0fdf4;
     }
 
-    .loading, .no-data {
+    .action-item.fav .action-btn {
+      color: #ef4444;
+      background: #fef2f2;
+    }
+
+    .action-item.rate .action-btn {
+      color: #f59e0b;
+      background: #fffbeb;
+    }
+
+    .footer-badge {
+      background: #fff5f0;
+      color: var(--burnt-orange);
       text-align: center;
-      padding: 40px 20px;
-      color: var(--text-light);
+      padding: 12px;
+      border-radius: 12px;
+      margin-top: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .loading-state, .empty-state {
+      text-align: center;
+      padding: 30px 10px;
+      color: var(--text-muted);
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>صنعة يد</h1>
-    <p>دليلك المباشر للوصول لأفضل الحرفيين</p>
-  </header>
+  <!-- Top Header Bar -->
+  <div class="top-header">
+    <button class="btn-login"><i class="fa-solid fa-arrow-right-to-bracket"></i> دخول</button>
+    <div class="brand-logo">
+      <div class="brand-text">
+        <h1>صنعة يد</h1>
+        <p>دليلك الأول للحرفيين في ليبيا</p>
+      </div>
+      <div class="logo-icon">ص</div>
+    </div>
+  </div>
 
   <div class="container">
-    <div class="filters-card">
-      <div class="select-group">
-        <label>المدينة / المنطقة</label>
-        <select id="citySelect">
-          <option value="">كل المدن</option>
-        </select>
+    <!-- Slogan -->
+    <div class="slogan-container">
+      ✨ صنعة في اليد ولا ورث الجد ✨
+    </div>
+
+    <!-- Filter Card -->
+    <div class="filter-card">
+      <div class="filter-grid">
+        <div class="select-box">
+          <i class="fa-solid fa-wrench"></i>
+          <div class="select-wrapper">
+            <label>الصنعة / المهنة</label>
+            <select id="professionSelect">
+              <option value="">اختر المهنة</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="select-box">
+          <i class="fa-solid fa-location-dot"></i>
+          <div class="select-wrapper">
+            <label>المدينة / المنطقة</label>
+            <select id="citySelect">
+              <option value="">اختر المدينة</option>
+            </select>
+          </div>
+        </div>
       </div>
 
-      <div class="select-group">
-        <label>نوع الصنعة / المهنة</label>
-        <select id="professionSelect">
-          <option value="">كل المهن</option>
-        </select>
+      <button class="btn-search" onclick="filterData()">
+        <i class="fa-solid fa-magnifying-glass"></i> بحث
+      </button>
+    </div>
+
+    <!-- Section Heading -->
+    <div class="section-title">
+      <div>
+        <h2>🏆 نخبة الحرفيين في ليبيا 🏆</h2>
+        <span>الأعلى تقييماً والأكثر توازناً من العملاء</span>
       </div>
     </div>
 
+    <!-- Artisans List -->
     <div id="artisansList" class="artisans-list">
-      <div class="loading">جاري تحميل الحرفيين...</div>
+      <div class="loading-state">جاري تحميل البيانات...</div>
+    </div>
+
+    <!-- Bottom Footer Badge -->
+    <div class="footer-badge">
+      <i class="fa-solid fa-shield-halved"></i> جميع الحرفيين يقدمون خدماتهم باحترافية
     </div>
   </div>
 
   <script>
-    // 1. إعدادات السوبابيس الحقيقية لمشروعك
-    const SUPABASE_URL = 'https://oagbsfijewebusvwogwb.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9hZ2JzZmlqZXdlYnVzdndvZ3diIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAxNzg2MDQsImV4cCI6MjA1NTc1NDYwNH0.L7nQGjYqQv1Rj6vX0D7X3D-0wG9n1G1X-X-X-X-X-X'; 
+    const SUPABASE_URL = 'https://bdnwsimnfhdguunicajh.supabase.co';
+    const SUPABASE_ANON_KEY = 'Sb_publishable_GF1OJ8QV-vyqgUaCzOZbVQ_JbZI9ObR'; 
 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -215,16 +444,23 @@
     let citiesMap = {};
     let professionsMap = {};
 
+    // أيقونات افتراضية للمهن
+    const profIcons = {
+      'سباك': 'fa-faucet-drip',
+      'كهربائي': 'fa-plug',
+      'دهان': 'fa-paint-roller',
+      'نجار': 'fa-door-closed',
+      'صياني': 'fa-screwdriver-wrench'
+    };
+
     async function initApp() {
       try {
-        // جلب المدن والمهن والحرفيين معاً
         const [citiesRes, professionsRes, artisansRes] = await Promise.all([
           supabaseClient.from('cities').select('*'),
           supabaseClient.from('professions').select('*'),
           supabaseClient.from('artisans').select('*')
         ]);
 
-        // بناء خريطة للمدن والمهن لتسريع البحث
         if (citiesRes.data) {
           const citySelect = document.getElementById('citySelect');
           citiesRes.data.forEach(c => {
@@ -241,53 +477,91 @@
           });
         }
 
-        if (artisansRes.data) {
+        if (artisansRes.data && artisansRes.data.length > 0) {
           allArtisans = artisansRes.data;
           renderArtisans(allArtisans);
         } else {
-          document.getElementById('artisansList').innerHTML = '<div class="no-data">لا يوجد حرفيين حالياً</div>';
+          document.getElementById('artisansList').innerHTML = '<div class="empty-state">لا يوجد حرفيون حالياً</div>';
         }
 
       } catch (err) {
-        console.error('Error fetching data:', err);
-        document.getElementById('artisansList').innerHTML = '<div class="no-data">حدث خطأ أثناء تحميل البيانات</div>';
+        console.error('Error:', err);
+        document.getElementById('artisansList').innerHTML = '<div class="empty-state">حدث خطأ أثناء اتصال القاعدة</div>';
       }
     }
 
     function renderArtisans(list) {
       const container = document.getElementById('artisansList');
       if (!list || list.length === 0) {
-        container.innerHTML = '<div class="no-data">لا يوجد حرفيون يطابقون خيارات البحث</div>';
+        container.innerHTML = '<div class="empty-state">لا يوجد حرفيون يطابقون خيارات البحث</div>';
         return;
       }
 
       container.innerHTML = list.map(artisan => {
-        const cityName = citiesMap[artisan.city_id] || '';
-        const profName = professionsMap[artisan.profession_id] || '';
+        const cityName = citiesMap[artisan.city_id] || 'ليبيا';
+        const profName = professionsMap[artisan.profession_id] || 'حرفي';
         const phone = artisan.phone_number || '';
-        
-        // تجهيز رقم الواتساب بدون علامة +
         const cleanPhone = phone.replace(/[^0-9]/g, '');
+
+        let iconClass = 'fa-faucet-drip';
+        for (let key in profIcons) {
+          if (profName.includes(key)) iconClass = profIcons[key];
+        }
 
         return `
           <div class="artisan-card">
-            <div class="artisan-info">
-              <h3>${artisan.full_name || 'حرفي'}</h3>
-              <div class="badges">
-                ${profName ? `<span class="badge">${profName}</span>` : ''}
-                ${cityName ? `<span class="badge" style="background:#f3f4f6; color:#4b5563;">${cityName}</span>` : ''}
+            <div class="artisan-header">
+              <div class="artisan-actions" style="border:none; padding:0; display:flex; gap:8px;">
+                <!-- Left Buttons -->
+              </div>
+              <div class="artisan-main">
+                <div class="artisan-info" style="text-align: right;">
+                  <h3>
+                    ${artisan.full_name || 'حرفي'}
+                    <i class="fa-solid fa-circle-check verified"></i>
+                  </h3>
+                  <p>${profName}</p>
+                  <div class="artisan-meta">
+                    <span class="rating"><i class="fa-solid fa-star"></i> 4.9</span>
+                    <span class="location"><i class="fa-solid fa-location-dot"></i> ${cityName}</span>
+                  </div>
+                </div>
+                <div class="artisan-avatar-icon">
+                  <i class="fa-solid ${iconClass}"></i>
+                </div>
               </div>
             </div>
-            <div class="actions">
-              ${phone ? `<a href="tel:${phone}" class="btn-action btn-call" title="اتصال"><i class="fa-solid fa-phone"></i></a>` : ''}
-              ${cleanPhone ? `<a href="https://wa.me/${cleanPhone}" class="btn-action btn-whatsapp" target="_blank" title="واتساب"><i class="fa-brands fa-whatsapp"></i></a>` : ''}
+
+            <div class="artisan-actions">
+              ${phone ? `
+                <a href="tel:${phone}" class="action-item call">
+                  <div class="action-btn"><i class="fa-solid fa-phone"></i></div>
+                  <span>اتصال</span>
+                </a>
+              ` : ''}
+
+              ${cleanPhone ? `
+                <a href="https://wa.me/${cleanPhone}" target="_blank" class="action-item whatsapp">
+                  <div class="action-btn"><i class="fa-brands fa-whatsapp"></i></div>
+                  <span>واتساب</span>
+                </a>
+              ` : ''}
+
+              <div class="action-item fav">
+                <div class="action-btn"><i class="fa-regular fa-heart"></i></div>
+                <span>مفضلة</span>
+              </div>
+
+              <div class="action-item rate">
+                <div class="action-btn"><i class="fa-regular fa-star"></i></div>
+                <span>تقييم</span>
+              </div>
             </div>
           </div>
         `;
       }).join('');
     }
 
-    // تصفية النتائج عند تغيير المدينة أو المهنة
     function filterData() {
       const selectedCity = document.getElementById('citySelect').value;
       const selectedProf = document.getElementById('professionSelect').value;
@@ -301,10 +575,6 @@
       renderArtisans(filtered);
     }
 
-    document.getElementById('citySelect').addEventListener('change', filterData);
-    document.getElementById('professionSelect').addEventListener('change', filterData);
-
-    // تشغيل عند فتح الصفحة
     initApp();
   </script>
 </body>
