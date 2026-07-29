@@ -47,16 +47,15 @@
 
     .artisans-list { display: flex; flex-direction: column; gap: 12px; }
     
-    /* صندوق أخطاء الـ Console لإظهاره مباشرة في الشاشة */
     #debugConsole {
       background: #1e1e1e;
-      color: #ff6b6b;
+      color: #00ff66;
       padding: 12px;
       border-radius: 12px;
       font-family: monospace;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       margin-bottom: 15px;
-      display: none;
+      display: block;
       white-space: pre-wrap;
       word-break: break-all;
       direction: ltr;
@@ -80,8 +79,7 @@
   <div class="container">
     <div class="slogan-container">✨ صنعة في اليد ولا ورث الجد ✨</div>
 
-    <!-- مكان عرض الخطأ الحقيقي للمعاينة -->
-    <div id="debugConsole"></div>
+    <div id="debugConsole">=== LOG START ===\n</div>
 
     <div class="filter-card">
       <div class="filter-grid">
@@ -116,31 +114,48 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const SUPABASE_URL = 'https://bdnwsimnfhdguunicajh.supabase.co';
-      const SUPABASE_ANON_KEY = 'sb_publishable_GF1OJ8QV-vyqgUaCzOZbVQ_JbZI9ObR'; 
-
-      const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    function logMessage(msg, obj = null) {
       const debugConsole = document.getElementById('debugConsole');
-
-      function showError(title, err) {
-        debugConsole.style.display = 'block';
-        debugConsole.innerHTML += `=== ${title} ===\n${JSON.stringify(err, null, 2)}\n\n`;
+      let text = `[LOG] ${msg}\n`;
+      if (obj) {
+        text += JSON.stringify(obj, null, 2) + '\n';
       }
+      console.log(msg, obj || '');
+      debugConsole.innerText += text;
+    }
 
-      // جلب وفحص استجابة كل جدول على حدة لمعرفة أين يحدث الخلل بدقة
-      const citiesRes = await supabaseClient.from('cities').select('*');
-      if (citiesRes.error) showError('City Error', citiesRes.error);
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const SUPABASE_URL = 'https://bdnwsimnfhdguunicajh.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkbndzaW1uZmhkZ3V1bmljYWpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3MjU3OTgsImV4cCI6MjA5ODMwMTc5OH0.p4hTjuZOVeH7MelD5HQ6u4EL2EK6aubzh1BpK7xYN3E'; 
 
-      const professionsRes = await supabaseClient.from('professions').select('*');
-      if (professionsRes.error) showError('Profession Error', professionsRes.error);
+        logMessage('1. Starting Supabase Client creation...');
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        logMessage('1. After Supabase Client created successfully.');
 
-      const artisansRes = await supabaseClient.from('artisans').select('*');
-      if (artisansRes.error) showError('Artisans Error', artisansRes.error);
+        // 2. جلب المدن
+        logMessage('2. Fetching cities...');
+        const citiesRes = await supabaseClient.from('cities').select('*');
+        logMessage('2. After fetching cities. citiesRes:', citiesRes);
 
-      // إذا لم توجد أخطاء شبكة/RLS ولكن المصفوفة فارغة
-      if (!artisansRes.error && artisansRes.data.length === 0) {
-        showError('Data Notice', 'تم الاتصال بنجاح لكن مصفوفة الحرفيين (artisans) عادت فارغة []');
+        // 3. جلب المهن
+        logMessage('3. Fetching professions...');
+        const professionsRes = await supabaseClient.from('professions').select('*');
+        logMessage('3. After fetching professions. professionsRes:', professionsRes);
+
+        // 4. جلب الحرفيين
+        logMessage('4. Fetching artisans...');
+        const artisansRes = await supabaseClient.from('artisans').select('*');
+        logMessage('4. After fetching artisans. artisansRes:', artisansRes);
+
+        logMessage('=== ALL FETCHES COMPLETED ===');
+
+      } catch (err) {
+        logMessage('EXCEPTIONAL ERROR CAUGHT:', {
+          message: err.message,
+          stack: err.stack,
+          raw: err
+        });
       }
     });
   </script>
