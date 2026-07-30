@@ -1,0 +1,307 @@
+/* =========================================================
+   San3at Yad
+   Main Styles
+   Version 1.0
+========================================================= */
+
+:root{
+
+    --primary:#C96E2F;
+    --primary-hover:#B35F28;
+
+    --background:#F6F7F9;
+
+    --surface:#FFFFFF;
+
+    --text:#1F2937;
+
+    --text-light:#6B7280;
+
+    --border:#E5E7EB;
+
+    --radius:18px;
+
+    --shadow:0 8px 24px rgba(0,0,0,.08);
+
+    --transition:.25s ease;
+
+    --container:1200px;
+
+}
+
+/* ========================= */
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+}
+
+/* ========================= */
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+/* ========================= */
+
+body{
+
+    direction:rtl;
+
+    font-family:
+        "Cairo",
+        Tahoma,
+        sans-serif;
+
+    background:var(--background);
+
+    color:var(--text);
+
+    line-height:1.7;
+
+}
+
+/* ========================= */
+
+img{
+
+    display:block;
+
+    max-width:100%;
+
+}
+
+/* ========================= */
+
+button{
+
+    border:none;
+
+    outline:none;
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+    font-family:inherit;
+
+}
+
+/* ========================= */
+
+select,
+
+input{
+
+    font-family:inherit;
+
+    outline:none;
+
+}
+
+/* ========================= */
+
+a{
+
+    text-decoration:none;
+
+    color:inherit;
+
+}
+
+/* ========================= */
+
+main{
+
+    width:min(100%,var(--container));
+
+    margin:auto;
+
+    padding:20px;
+
+}
+
+/* ========================= */
+/* HEADER */
+/* ========================= */
+
+#main-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:16px;
+
+    padding:18px 20px;
+
+    background:var(--surface);
+
+    box-shadow:var(--shadow);
+
+    position:sticky;
+
+    top:0;
+
+    z-index:1000;
+
+}
+
+/* ========================= */
+
+#logo-area{
+
+    text-align:center;
+
+    flex:1;
+
+}
+
+/* ========================= */
+
+#logo{
+
+    color:var(--primary);
+
+    font-size:1.9rem;
+
+    font-weight:700;
+
+}
+
+/* ========================= */
+
+#tagline{
+
+    margin-top:6px;
+
+    color:var(--text);
+
+    font-size:.95rem;
+
+}
+
+/* ========================= */
+
+#logo-area small{
+
+    display:block;
+
+    margin-top:4px;
+
+    color:var(--text-light);
+
+}
+
+/* ========================= */
+
+#menu-button,
+
+#login-button{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:14px;
+
+    background:white;
+
+    box-shadow:var(--shadow);
+
+    font-size:1rem;
+
+}
+
+/* ========================= */
+
+#login-button{
+
+    width:auto;
+
+    padding:0 18px;
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+/* ========================= */
+
+#login-button:hover{
+
+    background:var(--primary-hover);
+
+}
+
+/* ========================= */
+/* Sections */
+/* ========================= */
+
+section{
+
+    margin-top:28px;
+
+}
+
+/* ========================= */
+
+#search-section{
+
+    background:white;
+
+    border-radius:var(--radius);
+
+    padding:22px;
+
+    box-shadow:var(--shadow);
+
+}
+
+/* ========================= */
+
+#trust-section{
+
+    text-align:center;
+
+    padding:18px;
+
+    background:white;
+
+    border-radius:var(--radius);
+
+    box-shadow:var(--shadow);
+
+}
+
+/* ========================= */
+
+#trust-section p{
+
+    color:var(--text-light);
+
+    font-size:.95rem;
+
+}
+
+/* ========================= */
+
+footer{
+
+    text-align:center;
+
+    padding:40px 20px;
+
+    color:var(--text-light);
+
+      }
