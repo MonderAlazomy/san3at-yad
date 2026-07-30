@@ -1,0 +1,149 @@
+/* =========================================================
+   San3at Yad
+   Responsive
+   Mobile First
+   Version 1.0
+=========================================================*/
+
+
+/* =========================================================
+   Large Phones
+=========================================================*/
+
+@media (min-width:480px){
+
+    main{
+
+        padding:24px;
+
+    }
+
+}
+
+
+/* =========================================================
+   Tablets
+=========================================================*/
+
+@media (min-width:768px){
+
+    #main-header{
+
+        padding:20px 32px;
+
+    }
+
+    #featured-artisans{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+    #search-section{
+
+        padding:28px;
+
+    }
+
+}
+
+
+/* =========================================================
+   Small Laptops
+=========================================================*/
+
+@media (min-width:1024px){
+
+    #featured-artisans{
+
+        grid-template-columns:repeat(3,1fr);
+
+    }
+
+    main{
+
+        padding:32px;
+
+    }
+
+}
+
+
+/* =========================================================
+   Large Screens
+=========================================================*/
+
+@media (min-width:1440px){
+
+    #featured-artisans{
+
+        grid-template-columns:repeat(4,1fr);
+
+    }
+
+}
+
+
+/* =========================================================
+   Small Mobile Devices
+=========================================================*/
+
+@media (max-width:420px){
+
+    #main-header{
+
+        padding:14px;
+
+        gap:10px;
+
+    }
+
+    #logo{
+
+        font-size:1.5rem;
+
+    }
+
+    #tagline{
+
+        font-size:.82rem;
+
+    }
+
+    #menu-button,
+
+    #login-button{
+
+        height:42px;
+
+    }
+
+    .card-header{
+
+        align-items:flex-start;
+
+    }
+
+    .card-icon{
+
+        width:56px;
+
+        height:56px;
+
+        font-size:1.4rem;
+
+    }
+
+    .card-actions{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+    .expand-button{
+
+        grid-column:1/-1;
+
+    }
+
+}
